@@ -115,7 +115,7 @@ module CarrierWave
           host: "oss-#{@aliyun_area}.aliyuncs.com",
           bucket: @aliyun_bucket
         }
-        @oss_client = ::Aliyun::Oss::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @oss_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
       end
 
       def img_client
@@ -124,7 +124,7 @@ module CarrierWave
           host: "img-#{@aliyun_area}.aliyuncs.com",
           bucket: @aliyun_bucket
         }
-        @img_client = ::Aliyun::Oss::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @img_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
       end
 
       def oss_upload_client
@@ -141,7 +141,7 @@ module CarrierWave
           bucket: @aliyun_bucket
         }
 
-        @oss_upload_client = ::Aliyun::Oss::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @oss_upload_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
       end
     end
   end
