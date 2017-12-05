@@ -38,7 +38,9 @@ module CarrierWave
           headers['Content-Disposition'] = content_disposition
         end
 
-        res = oss_upload_client.bucket_create_object(path, file, headers)
+        res = oss_upload_client.get_bucket(@aliyun_bucket).put_object(path, :file => file)
+
+        # res = oss_upload_client.bucket_create_object(path, file, headers)
         if res.success?
           path_to_url(path)
         else
@@ -53,7 +55,9 @@ module CarrierWave
       # file data
       def get(path)
         path.sub!(PATH_PREFIX, '')
-        res = oss_upload_client.bucket_get_object(path)
+        .get_bucket(@aliyun_bucket)
+        res = oss_upload_client.get_bucket(@aliyun_bucket).get_object(path)
+        # res = oss_upload_client.bucket_get_object(path)
         if res.success?
           return res
         else
@@ -70,7 +74,8 @@ module CarrierWave
       # 图片的下载地址
       def delete(path)
         path.sub!(PATH_PREFIX, '')
-        res = oss_upload_client.bucket_delete_object(path)
+        # res = oss_upload_client.bucket_delete_object(path)
+        res = oss_upload_client.get_bucket(@aliyun_bucket).delete_object(path)
         if res.success?
           return path_to_url(path)
         else
@@ -104,7 +109,8 @@ module CarrierWave
       end
 
       def head(path)
-        oss_client.bucket_get_meta_object(path)
+        # oss_client.bucket_get_meta_object(path)
+        oss_client.get_bucket(@aliyun_bucket).get_meta_object(path)
       end
 
       private
@@ -115,7 +121,7 @@ module CarrierWave
           host: "oss-#{@aliyun_area}.aliyuncs.com",
           bucket: @aliyun_bucket
         }
-        @oss_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @oss_client = ::Aliyun::OSS::Client.new(access_key_id: @aliyun_access_id, access_key_secret: @aliyun_access_key, endpoint: host)
       end
 
       def img_client
@@ -124,7 +130,7 @@ module CarrierWave
           host: "img-#{@aliyun_area}.aliyuncs.com",
           bucket: @aliyun_bucket
         }
-        @img_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @img_client = ::Aliyun::OSS::Client.new(access_key_id: @aliyun_access_id, access_key_secret: @aliyun_access_key, endpoint: host)
       end
 
       def oss_upload_client
@@ -141,7 +147,7 @@ module CarrierWave
           bucket: @aliyun_bucket
         }
 
-        @oss_upload_client = ::Aliyun::OSS::Client.new(@aliyun_access_id, @aliyun_access_key, opts)
+        @oss_upload_client = ::Aliyun::OSS::Client.new(access_key_id: @aliyun_access_id, access_key_secret: @aliyun_access_key, endpoint: host)
       end
     end
   end
