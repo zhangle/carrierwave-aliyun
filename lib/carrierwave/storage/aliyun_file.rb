@@ -1,5 +1,3 @@
-require 'aliyun/oss'
-
 module CarrierWave
   module Storage
     class AliyunFile < CarrierWave::SanitizedFile
@@ -19,7 +17,6 @@ module CarrierWave
 
       def delete
         bucket.delete(@path)
-        bucket.delete_object(@path)
         true
       rescue => e
         # If the file's not there, don't panic
