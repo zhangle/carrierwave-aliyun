@@ -38,7 +38,7 @@ module CarrierWave
           headers['Content-Disposition'] = content_disposition
         end
 
-        res = oss_upload_client.get_bucket(@aliyun_bucket).put_object(path, :file => file)
+        res = oss_upload_client.get_bucket(@aliyun_bucket).put_object(path, :file => file.path)
 
         # res = oss_upload_client.bucket_create_object(path, file, headers)
         if res.success?
