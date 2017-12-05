@@ -1,3 +1,5 @@
+require 'aliyun/oss'
+
 module CarrierWave
   module Storage
     class AliyunFile < CarrierWave::SanitizedFile
